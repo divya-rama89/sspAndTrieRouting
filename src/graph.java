@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-class TreeNode {
+class TreeNode implements Comparable<TreeNode> {
 
 	int vertexNumber;  //vertex number
     int data;// distance which is the priority decider
     public ArrayList<Edge> adj; //to hold adjacent vertices and weight
     public TreeNode previous; // to hold the previous hop to go to source
        
+    // to store the IPs
+    BinaryTrie routerTrie;
+    
     // required for heap
     Boolean childCut; //childcut field for cascadeCut operation
     TreeNode left;    // left sibling
@@ -18,7 +21,10 @@ class TreeNode {
     TreeNode parent;  
     List<TreeNode> children;
     int degree = 0;
-
+    public int compareTo(TreeNode other)
+    {
+        return Double.compare(data, other.data);
+    }
     
     public TreeNode(int vertexNumber, int data) {
         this.vertexNumber = vertexNumber;
@@ -56,7 +62,7 @@ public class graph {
     
     // build a reference list of treeNodes 
     for (int i = 0; i < numVer; i++) {
-    	vertexList.add(i,new TreeNode(i, Integer.MAX_VALUE)); 	
+    	vertexList.add(i,new TreeNode(i, Integer.MAX_VALUE)); 
     }
     
 }

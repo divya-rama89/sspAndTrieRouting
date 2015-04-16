@@ -1,5 +1,12 @@
-import java.util.*;
-
+class nodeObject{
+	String nextHopNode;
+	Integer weight;
+	
+	public nodeObject(String next, Integer wt){
+		this.nextHopNode = next;
+		this.weight = wt;
+	}
+}
 
 public class BinaryTrieNode {
 	private BinaryTrieNode zero;
@@ -34,7 +41,7 @@ public class BinaryTrieNode {
 		}
 	}
 	
-	public void addNextHopNode(String destination, String Node) {
+	public void addNextHopNode(String destination, nodeObject Node) {
 		if(destination == null || destination.isEmpty()) {
 			return;
 		}
@@ -59,7 +66,8 @@ public class BinaryTrieNode {
 			child.addNextHopNode(destination.substring(1), Node);
 		} else {
 			child.terminates = true;
-			child.firstHopNode = Node;
+			child.firstHopNode = Node.nextHopNode;
+			child.weight = Node.weight;
 		}
 	}
 
@@ -89,6 +97,7 @@ public class BinaryTrieNode {
 			if(this.zero.firstHopNode != null && this.one.firstHopNode != null) {
 				if(this.zero.firstHopNode.equals(this.one.firstHopNode)) {
 					this.firstHopNode = this.zero.firstHopNode;
+					this.weight = this.zero.weight;
 					this.zero = null;
 					this.one = null;
 					this.terminates = true;
@@ -96,12 +105,16 @@ public class BinaryTrieNode {
 			}
 		} else if(this.zero != null || this.one != null) {
 			String temp = "";
+			Integer tempWeight = 0;
 			if(this.zero != null) {
 				temp = this.zero.firstHopNode;
+				tempWeight = this.zero.weight;
 			} else if(this.one != null) {
 				temp = this.one.firstHopNode;
+				tempWeight = this.one.weight;
 			}
 			this.firstHopNode = temp;
+			this.weight = tempWeight;
 			this.zero = null;
 			this.one = null;
 			this.terminates = true;
